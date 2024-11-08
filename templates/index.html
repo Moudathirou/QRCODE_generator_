@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/" />
+    <title>QR Code Generator avec Avatar Vendeur</title>
+    <meta charset="utf-8"/>
+    <style>
+    /* Vos styles CSS */
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #1a1c20 0%, #0f1114 100%);
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    .container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        width: 80%;
+        max-width: 600px;
+        margin-top: 50px;
+    }
+    
+    textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        color: #ffffff;
+        resize: vertical;
+    }
+    
+    button {
+        background: linear-gradient(45deg, #6e48aa, #9d50bb);
+        border: none;
+        padding: 12px 30px;
+        color: white;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: transform 0.3s ease;
+    }
+    
+    button:hover {
+        transform: scale(1.05);
+    }
+    
+    #qrcode {
+        margin-top: 20px;
+        padding: 10px;
+        background: white;
+        border-radius: 10px;
+        display: inline-block;
+    }
+
+    #qrcode img {
+        width: 200px;  /* Ajustez la taille d'affichage selon vos besoins */
+        height: 200px;
+    }
+    
+    .avatar-preview {
+        width: 200px;
+        height: 200px;
+        margin: 20px auto;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #6e48aa;
+        animation: glow 2s infinite alternate;
+    }
+    
+    @keyframes glow {
+        from {
+            box-shadow: 0 0 10px #6e48aa;
+        }
+        to {
+            box-shadow: 0 0 20px #9d50bb;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Générateur de QR Code avec Avatar Vendeur</h1>
+        <div class="avatar-preview">
+            <!-- Votre contenu SVG ou image ici -->
+
+            <svg width="200" height="200" viewBox="0 0 200 200">
+                <defs>
+                    <linearGradient id="gradientBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#6e48aa;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#9d50bb;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle cx="100" cy="100" r="90" fill="url(#gradientBg)"/>
+                <circle cx="100" cy="85" r="40" fill="#fff"/>
+                <path d="M100 140 Q100 180 160 180 A80 80 0 0 1 40 180 Q100 180 100 140" fill="#fff"/>
+            </svg>
+        </div>
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
+        <form method="post">
+            <textarea id="productInfo" name="productInfo" placeholder="Décrivez votre produit ici (nom, prix, caractéristiques, etc.)"></textarea>
+            <button type="submit">Générer le QR Code</button>
+        </form>
+        {% if qr_code %}
+        <div id="qrcode">
+            <a href="data:image/png;base64,{{ qr_code }}" download="qrcode.png">
+                <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+            </a>
+            <p>Cliquez sur le QR code pour le télécharger</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
+
+
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <base href="/" />
+    <title>QR Code Generator avec Avatar Vendeur</title>
+    <meta charset="utf-8"/>
+    <style>
+    /* Vos styles CSS */
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #1a1c20 0%, #0f1114 100%);
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    .container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        width: 80%;
+        max-width: 600px;
+        margin-top: 50px;
+    }
+    
+    textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        color: #ffffff;
+        resize: vertical;
+    }
+    
+    button {
+        background: linear-gradient(45deg, #6e48aa, #9d50bb);
+        border: none;
+        padding: 12px 30px;
+        color: white;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: transform 0.3s ease;
+    }
+    
+    button:hover {
+        transform: scale(1.05);
+    }
+    
+    #qrcode {
+        margin-top: 20px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        display: inline-block;
+    }
+    
+    .avatar-preview {
+        width: 200px;
+        height: 200px;
+        margin: 20px auto;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #6e48aa;
+        animation: glow 2s infinite alternate;
+    }
+    
+    @keyframes glow {
+        from {
+            box-shadow: 0 0 10px #6e48aa;
+        }
+        to {
+            box-shadow: 0 0 20px #9d50bb;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Générateur de QR Code avec Avatar Vendeur</h1>
+        <div class="avatar-preview">
+            <svg width="200" height="200" viewBox="0 0 200 200">
+                <defs>
+                    <linearGradient id="gradientBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#6e48aa;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#9d50bb;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle cx="100" cy="100" r="90" fill="url(#gradientBg)"/>
+                <circle cx="100" cy="85" r="40" fill="#fff"/>
+                <path d="M100 140 Q100 180 160 180 A80 80 0 0 1 40 180 Q100 180 100 140" fill="#fff"/>
+            </svg>
+        </div>
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
+        <form method="post">
+            <textarea id="productInfo" name="productInfo" placeholder="Décrivez votre produit ici (nom, prix, caractéristiques, etc.)"></textarea>
+            <button type="submit">Générer le QR Code</button>
+        </form>
+        {% if qr_code %}
+        <div id="qrcode">
+            <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>-->
